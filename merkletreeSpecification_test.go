@@ -1,7 +1,7 @@
 package merkletree
 
 /*
-This is just an example of basic tests for the iden3-merkletree-specification.
+This is just an example of basic tests for the (old) iden3-merkletree-specification.
 The methods and variables names can be different.
 */
 
