@@ -30,3 +30,12 @@ func TestHashBytes(t *testing.T) {
 	h = HashBytes([]byte("authorizeksign")).Hex()
 	assert.Equal(t, "0x353f867ef725411de05e3d4b0a01c37cf7ad24bcc213141a05ed7726d7932a1f", h)
 }
+
+func TestUint32ToBytes(t *testing.T) {
+	b := Uint32ToBytes(999)
+	assert.Equal(t, []byte{0xe7, 0x3, 0x0, 0x0}, b)
+}
+func TestBytesToUint32(t *testing.T) {
+	u := BytesToUint32([]byte{0xe7, 0x3, 0x0, 0x0})
+	assert.Equal(t, uint32(999), u)
+}

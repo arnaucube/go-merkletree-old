@@ -9,7 +9,6 @@ import (
 	"strconv"
 	"testing"
 
-	common3 "github.com/iden3/go-iden3/common"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -60,7 +59,7 @@ func TestIden3MerkletreeSpecification(t *testing.T) {
 	// proof with only one leaf in the MerkleTree
 	proof, err := mt.GenerateProof(leaf.Hi())
 	assert.Nil(t, err)
-	assert.Equal(t, "0x0000000000000000000000000000000000000000000000000000000000000000", common3.BytesToHex(proof))
+	assert.Equal(t, "0x0000000000000000000000000000000000000000000000000000000000000000", BytesToHex(proof))
 
 	// add a second leaf
 	leaf2 := testBytesLeaf{
@@ -74,7 +73,7 @@ func TestIden3MerkletreeSpecification(t *testing.T) {
 	// proof of the second leaf, with two leafs in the MerkleTree
 	proof2, err := mt.GenerateProof(leaf2.Hi())
 	assert.Nil(t, err)
-	assert.Equal(t, "0x0000000000000000000000000000000000000000000000000000000000000001fd8e1a60cdb23c0c7b2cf8462c99fafd905054dccb0ed75e7c8a7d6806749b6b", common3.BytesToHex(proof2))
+	assert.Equal(t, "0x0000000000000000000000000000000000000000000000000000000000000001fd8e1a60cdb23c0c7b2cf8462c99fafd905054dccb0ed75e7c8a7d6806749b6b", BytesToHex(proof2))
 
 	// proof of emptyLeaf
 	leaf3 := testBytesLeaf{
@@ -83,7 +82,7 @@ func TestIden3MerkletreeSpecification(t *testing.T) {
 	}
 	proof3, err := mt.GenerateProof(leaf3.Hi())
 	assert.Nil(t, err)
-	assert.Equal(t, "0x000000000000000000000000000000000000000000000000000000000000000389741fa23da77c259781ad8f4331a5a7d793eef1db7e5200ddfc8e5f5ca7ce2bfd8e1a60cdb23c0c7b2cf8462c99fafd905054dccb0ed75e7c8a7d6806749b6b", common3.BytesToHex(proof3))
+	assert.Equal(t, "0x000000000000000000000000000000000000000000000000000000000000000389741fa23da77c259781ad8f4331a5a7d793eef1db7e5200ddfc8e5f5ca7ce2bfd8e1a60cdb23c0c7b2cf8462c99fafd905054dccb0ed75e7c8a7d6806749b6b", BytesToHex(proof3))
 
 	// getLeafByHi/GetValueInPos
 	bytesInHi, err := mt.GetValueInPos(leaf2.Hi())
@@ -91,13 +90,13 @@ func TestIden3MerkletreeSpecification(t *testing.T) {
 	assert.Equal(t, leaf2.Bytes(), bytesInHi)
 
 	// check proof
-	rootBytes, err := common3.HexToBytes("0x7d7c5e8f4b3bf434f3d9d223359c4415e2764dd38de2e025fbf986e976a7ed3d")
+	rootBytes, err := HexToBytes("0x7d7c5e8f4b3bf434f3d9d223359c4415e2764dd38de2e025fbf986e976a7ed3d")
 	assert.Nil(t, err)
-	mp, err := common3.HexToBytes("0x0000000000000000000000000000000000000000000000000000000000000002d45aada6eec346222eaa6b5d3a9260e08c9b62fcf63c72bc05df284de07e6a52")
+	mp, err := HexToBytes("0x0000000000000000000000000000000000000000000000000000000000000002d45aada6eec346222eaa6b5d3a9260e08c9b62fcf63c72bc05df284de07e6a52")
 	assert.Nil(t, err)
-	hiBytes, err := common3.HexToBytes("0x786677808ba77bdd9090a969f1ef2cbd1ac5aecd9e654f340500159219106878")
+	hiBytes, err := HexToBytes("0x786677808ba77bdd9090a969f1ef2cbd1ac5aecd9e654f340500159219106878")
 	assert.Nil(t, err)
-	htBytes, err := common3.HexToBytes("0x786677808ba77bdd9090a969f1ef2cbd1ac5aecd9e654f340500159219106878")
+	htBytes, err := HexToBytes("0x786677808ba77bdd9090a969f1ef2cbd1ac5aecd9e654f340500159219106878")
 	assert.Nil(t, err)
 	var root, hi, ht Hash
 	copy(root[:], rootBytes)
@@ -107,13 +106,13 @@ func TestIden3MerkletreeSpecification(t *testing.T) {
 	assert.True(t, verified)
 
 	// check proof of empty
-	rootBytes, err = common3.HexToBytes("0x8f021d00c39dcd768974ddfe0d21f5d13f7215bea28db1f1cb29842b111332e7")
+	rootBytes, err = HexToBytes("0x8f021d00c39dcd768974ddfe0d21f5d13f7215bea28db1f1cb29842b111332e7")
 	assert.Nil(t, err)
-	mp, err = common3.HexToBytes("0x0000000000000000000000000000000000000000000000000000000000000004bf8e980d2ed328ae97f65c30c25520aeb53ff837579e392ea1464934c7c1feb9")
+	mp, err = HexToBytes("0x0000000000000000000000000000000000000000000000000000000000000004bf8e980d2ed328ae97f65c30c25520aeb53ff837579e392ea1464934c7c1feb9")
 	assert.Nil(t, err)
-	hiBytes, err = common3.HexToBytes("0xa69792a4cff51f40b7a1f7ae596c6ded4aba241646a47538898f17f2a8dff647")
+	hiBytes, err = HexToBytes("0xa69792a4cff51f40b7a1f7ae596c6ded4aba241646a47538898f17f2a8dff647")
 	assert.Nil(t, err)
-	htBytes, err = common3.HexToBytes("0x0000000000000000000000000000000000000000000000000000000000000000")
+	htBytes, err = HexToBytes("0x0000000000000000000000000000000000000000000000000000000000000000")
 	assert.Nil(t, err)
 	copy(root[:], rootBytes)
 	copy(hi[:], hiBytes)

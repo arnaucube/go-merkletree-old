@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/dchest/uniuri"
-	common3 "github.com/iden3/go-iden3/common"
 	"github.com/stretchr/testify/assert"
 	"github.com/syndtr/goleveldb/leveldb"
 )
@@ -32,7 +31,7 @@ func parseTestLeafBytes(b []byte) testLeaf {
 	copy(c.testBase.Namespace[:], b[4:36])
 	copy(c.testBase.Type[:], b[36:68])
 	versionBytes := b[68:72]
-	c.testBase.Version = common3.BytesToUint32(versionBytes)
+	c.testBase.Version = BytesToUint32(versionBytes)
 	c.extraIndex.Data = b[72:]
 	return c
 }
@@ -40,7 +39,7 @@ func (c testLeaf) Bytes() (b []byte) {
 	b = append(b, c.testBase.Length[:]...)
 	b = append(b, c.testBase.Namespace[:]...)
 	b = append(b, c.testBase.Type[:]...)
-	versionBytes := common3.Uint32ToBytes(c.testBase.Version)
+	versionBytes := Uint32ToBytes(c.testBase.Version)
 	b = append(b, versionBytes[:]...)
 	b = append(b, c.extraIndex.Data[:]...)
 	return b
