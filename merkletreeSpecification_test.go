@@ -48,6 +48,16 @@ func TestIden3MerkletreeSpecification(t *testing.T) {
 	// empty tree
 	assert.Equal(t, "0x0000000000000000000000000000000000000000000000000000000000000000", mt.Root().Hex())
 
+	leafN := testBytesLeaf{
+		data:        []byte{1, 2, 3, 4, 5},
+		indexLength: 3,
+	}
+	assert.Nil(t, mt.Add(leafN))
+	assert.Equal(t, "0xa0e72cc948119fcb71b413cf5ada12b2b825d5133299b20a6d9325ffc3e2fbf1", mt.Root().Hex())
+
+	mt = newTestingMerkle(t, 140)
+	defer mt.storage.Close()
+
 	// add leaf
 	leaf := testBytesLeaf{
 		data:        []byte("this is a test leaf"),
@@ -129,24 +139,28 @@ func TestIden3MerkletreeSpecification(t *testing.T) {
 
 	// add leafs in different orders
 	mt1 := newTestingMerkle(t, 140)
-	defer mt.storage.Close()
+	defer mt1.storage.Close()
 
 	mt1.Add(newTestBytesLeaf("0 this is a test leaf", 15))
 	mt1.Add(newTestBytesLeaf("1 this is a test leaf", 15))
 	mt1.Add(newTestBytesLeaf("2 this is a test leaf", 15))
 	mt1.Add(newTestBytesLeaf("3 this is a test leaf", 15))
 	mt1.Add(newTestBytesLeaf("4 this is a test leaf", 15))
+	mt1.Add(newTestBytesLeaf("5 this is a test leaf", 15))
+	// mt1.PrintFullMT()
 
 	mt2 := newTestingMerkle(t, 140)
-	defer mt.storage.Close()
+	defer mt2.storage.Close()
 
 	mt2.Add(newTestBytesLeaf("2 this is a test leaf", 15))
 	mt2.Add(newTestBytesLeaf("1 this is a test leaf", 15))
 	mt2.Add(newTestBytesLeaf("0 this is a test leaf", 15))
+	mt2.Add(newTestBytesLeaf("5 this is a test leaf", 15))
 	mt2.Add(newTestBytesLeaf("3 this is a test leaf", 15))
 	mt2.Add(newTestBytesLeaf("4 this is a test leaf", 15))
 
 	assert.Equal(t, mt1.Root().Hex(), mt2.Root().Hex())
+	assert.Equal(t, mt1.Root().Hex(), "0x264397f84da141b3134dcde1d7540d27a2bf0d787bbe8365d9ad5c9c18d3c621")
 
 	// adding 1000 leafs
 	mt1000 := newTestingMerkle(t, 140)

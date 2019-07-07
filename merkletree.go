@@ -25,7 +25,7 @@ var (
 	ErrNodeAlreadyExists = errors.New("node already exists")
 	rootNodeValue        = HashBytes([]byte("root"))
 	// EmptyNodeValue is a [32]byte EmptyNodeValue array, all to zero
-	EmptyNodeValue       = Hash{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+	EmptyNodeValue = Hash{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 )
 
 // Hash used in this tree, is the [32]byte keccak()
@@ -113,6 +113,7 @@ func (mt *MerkleTree) Add(v Value) error {
 				}
 			}
 			siblings = append(siblings, getEmptiesBetweenIAndPosHash(mt, i, posDiff+1)...)
+
 			if mt.root, err = mt.replaceLeaf(siblings, path[posDiff+1:], parentNode.Ht(), normalNodeType, 0, parentNode.Bytes()); err != nil {
 				return err
 			}
@@ -233,8 +234,8 @@ func (mt *MerkleTree) GetValueInPos(hi Hash) ([]byte, error) {
 		if nodeType == byte(finalNodeType) {
 			// check if nodeBytes path is different of hi
 			index := nodeBytes[:indexLength]
-			hi := HashBytes(index)
-			nodePath := getPath(mt.numLevels, hi)
+			nodeHi := HashBytes(index)
+			nodePath := getPath(mt.numLevels, nodeHi)
 			posDiff := comparePaths(path, nodePath)
 			// if is different, return an EmptyNodeValue, else return the nodeBytes
 			if posDiff != -1 {

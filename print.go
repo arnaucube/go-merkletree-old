@@ -1,7 +1,6 @@
 package merkletree
 
 import (
-	"encoding/hex"
 	"fmt"
 
 	"github.com/fatih/color"
@@ -35,7 +34,8 @@ func (mt *MerkleTree) printLevel(parent Hash, iLevel int, maxLevel int) {
 		for i := 0; i < iLevel; i++ {
 			fmt.Print("	")
 		}
-		color.Cyan("					leaf value: 0x" + hex.EncodeToString(leafNodeBytes))
+		// color.Cyan("					leaf value: 0x" + hex.EncodeToString(leafNodeBytes))
+		color.Cyan("					leaf value: " + string(leafNodeBytes))
 	} else {
 		//EMPTY_NODE
 		fmt.Print("[EmptyBranch]:")

@@ -34,7 +34,6 @@ func HashBytes(b []byte) (hash Hash) {
 
 // getPath returns the binary path, from the leaf to the root
 func getPath(numLevels int, hi Hash) []bool {
-
 	path := []bool{}
 	for bitno := numLevels - 2; bitno >= 0; bitno-- {
 		path = append(path, testbitmap(hi[:], uint(bitno)))
